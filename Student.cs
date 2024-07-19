@@ -12,7 +12,7 @@ namespace MiniAppConsoleProjectCode
 
         private static int _id;
         public int Id { get; set; }
-
+        public int ClassId {  get; set; }
         
         public string Name
         {
@@ -20,5 +20,12 @@ namespace MiniAppConsoleProjectCode
             set;
         }
         public string Surname;
+
+        public Student(string name, string surname)
+        {
+            Name = name;
+            Surname = surname;
+            Id = ++_id;
+        }
     }
 }

@@ -21,7 +21,8 @@ namespace MiniAppConsoleProjectCode
 
             Console.WriteLine("Enter your choice: ");
             string choice = Console.ReadLine();
-
+            List<Classroom> classrooms = new List<Classroom>();
+            List<Student> students = new List<Student>();
             switch (choice)
             {
                 case "1":
@@ -31,15 +32,15 @@ namespace MiniAppConsoleProjectCode
 
                     //string json = JsonConvert.SerializeObject(classroom);
                     string path = "C:\\Users\\namjoon\\source\\repos\\MiniAppConsoleProjectCode\\classrooms.json";
-
+                    //  string path = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "..","Jsons","student.json");
 
                     string result;
                     using (StreamReader sr = new StreamReader(path))
                     {
                         result = sr.ReadToEnd();
                     }
-                   List<Classroom> classrooms = JsonConvert.DeserializeObject<List<Classroom>>(result);
-                 // var json = JsonConvert.DeserializeObject<string>(result);
+                    classrooms = JsonConvert.DeserializeObject<List<Classroom>>(result);
+                    // var json = JsonConvert.DeserializeObject<string>(result);
                     if (classrooms is null)
                     {
                         classrooms = new();
@@ -49,6 +50,7 @@ namespace MiniAppConsoleProjectCode
 
                     Console.WriteLine("Please, enter name of classroom: ");
                     string classroomName = Console.ReadLine();
+
                     if (classroomName.IsValidNameSurName())
                     {
                         Console.WriteLine(classroomName);
@@ -56,10 +58,22 @@ namespace MiniAppConsoleProjectCode
                     else
                     {
 
-                        Console.WriteLine("Salam");
+                        Console.WriteLine("Please, enter true name");
                         goto restart;
                     }
-                    Classroom classroom=new(ClassroomType.Frontend, classroomName); 
+                    Console.WriteLine("Please enter the type of classroom(0-Backend,1-Frontend)");
+                    int selectedClass = int.Parse(Console.ReadLine());
+                    //Bax
+                    Classroom classroom = null; 
+                    if (selectedClass == 0)
+                    {
+                        classroom = new(ClassroomType.Backend, classroomName);
+                    }
+                    else if (selectedClass == 1)
+                    {
+                        classroom = new(ClassroomType.Frontend, classroomName);
+                    }
+
 
                     classrooms.Add(classroom);
 
@@ -68,10 +82,77 @@ namespace MiniAppConsoleProjectCode
                     using (StreamWriter sw = new StreamWriter(path))
                     {
                         sw.WriteLine(json);
-                        Console.WriteLine("User succesfully added");
+                        Console.WriteLine("Classroom succesfully added");
                     }
                     break;
+
+
+                case "2":
+                    string path1 = "C:\\Users\\namjoon\\source\\repos\\MiniAppConsoleProjectCode\\classrooms.json";
+                    //  string path = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "..","Jsons","student.json");
+
+                    string result1;
+                    using (StreamReader sr = new StreamReader(path1))
+                    {
+                        result1 = sr.ReadToEnd();
+                    }
+                    classrooms = JsonConvert.DeserializeObject<List<Classroom>>(result1);
+                    // var json = JsonConvert.DeserializeObject<string>(result);
+
+                    if (students is null)
+                    {
+                        classrooms = new();
+                    }
+                here:
+                    Console.WriteLine("Please, enter student name: ");
+                    string studentName = Console.ReadLine();
+
+                    Console.WriteLine("Please, enter student surname: ");
+                    string studentSurname = Console.ReadLine();
+                    if (studentName.IsValidNameSurName())
+                    {
+                        Console.WriteLine(studentName);
+                    }
+
+                    else if (studentSurname.IsValidNameSurName())
+                    {
+                        Console.WriteLine(studentSurname);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please, true name or surname...");
+                        goto here;
+                    }
+                    Student student = new Student(studentName, studentSurname);
+                    //BAX CLASSROOM FOREACH
+                    Console.WriteLine("Current classrooms: ");
+                    foreach (Classroom room in classrooms)
+                    {
+                        Console.WriteLine(room);
+                    }
+                selectedClassroom:
+                    Console.WriteLine("Select classroom: ");
+                    int selectedClassroom = int.Parse(Console.ReadLine());
+                    if (selectedClassroom < 0)
+                    {
+                        Console.WriteLine("False choice...Please, try again...");
+                        goto selectedClassroom;
+                    }
+
+                    // Classroom classroom1 = new(,);
+                    //classroom1.StudentAdd(student);
+
+                    var json1 = JsonConvert.SerializeObject(classrooms);
+                    using (StreamWriter sw = new StreamWriter(path1))
+                    {
+                        sw.WriteLine(json1);
+                        Console.WriteLine("Student succesfully added to classroom");
+                    }
+
+                    break;
             }
+
+
 
 
 

@@ -43,6 +43,7 @@ namespace MiniAppConsoleProjectCode
             if (Students.Count < Limit)
             {
                 Students.Add(student);
+                student.ClassId = Id;
                 return true;
             }
             return false;
