@@ -61,10 +61,13 @@ namespace MiniAppConsoleProjectCode
                         Console.WriteLine("Please, enter true name");
                         goto restart;
                     }
+                repeat:
                     Console.WriteLine("Please enter the type of classroom(0-Backend,1-Frontend)");
                     int selectedClass = int.Parse(Console.ReadLine());
                     //Bax
-                    Classroom classroom = null; 
+
+                    Classroom classroom = null!;
+                    
                     if (selectedClass == 0)
                     {
                         classroom = new(ClassroomType.Backend, classroomName);
@@ -73,8 +76,11 @@ namespace MiniAppConsoleProjectCode
                     {
                         classroom = new(ClassroomType.Frontend, classroomName);
                     }
-
-
+                    else
+                    {
+                        Console.WriteLine("Please choose correct variant");
+                        goto repeat;
+                    }
                     classrooms.Add(classroom);
 
 
@@ -123,10 +129,36 @@ namespace MiniAppConsoleProjectCode
                         Console.WriteLine("Please, true name or surname...");
                         goto here;
                     }
+
+
+
+
                     Student student = new Student(studentName, studentSurname);
+
+                    restartClass:
+                    Console.WriteLine("Choose class id");
+
+                    foreach (var c in classrooms)
+                    {
+                        Console.WriteLine($"{c.Id} {c.Name} {c.Type.ToString()}");
+                    }
+
+                    int classId = int.Parse(Console.ReadLine());
+
+                    var existClass=classrooms.FirstOrDefault(x=>x.Id == classId);
+
+                    if(existClass is null)
+                    {
+                        Console.WriteLine("Please enter valid classroom");
+                        goto restartClass;
+                    }
+
+                    existClass.StudentAdd(student);
+
                     //BAX CLASSROOM FOREACH
+
                     Console.WriteLine("Current classrooms: ");
-                    foreach (Classroom room in classrooms)
+                    foreach (var room in classrooms)
                     {
                         Console.WriteLine(room);
                     }

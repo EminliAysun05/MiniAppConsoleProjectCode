@@ -26,7 +26,7 @@ namespace MiniAppConsoleProjectCode
 
         public string Name { get; set; }
 
-        List<Student> Students { get; set; }
+        public List<Student> Students { get; set; }
         public ClassroomType Type { get; set; }
         public int Limit { get; set; }
         public Classroom(ClassroomType type, string name)
@@ -34,7 +34,7 @@ namespace MiniAppConsoleProjectCode
             Id = _id++;
             Type = type;
             Limit = (int)type;
-            List<Student> students = new List<Student>();
+            Students = new List<Student>();
             Name = name;
         }
 
